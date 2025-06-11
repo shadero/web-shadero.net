@@ -1,7 +1,7 @@
 ---
 title: "intro"
 slug: intro
-description: 
+description: 自己紹介とか
 date: 2025-06-10T15:16:51+09:00
 image: cover.jpg
 weight: 1
