@@ -19,3 +19,7 @@ pagerSize = 5
 
 [build]
 noJSConfigInAssets = true
+
+[services]
+[services.googleAnalytics]
+ID = "G-D376TE3HQL"
