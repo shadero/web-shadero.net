@@ -24,6 +24,8 @@ image:
 
 - イヤホン（NICEHCK EB2S）
   - <https://amzn.asia/d/5tyYYz6>
+- レンズ（たしか公式？？）
+- シリコンフェイスカバー
 - USB Hub（UGREEN）
   - <https://amzn.asia/d/4AA0Qq7>
   - Type-C対応で、USB PD給電可能なものを選択した。
