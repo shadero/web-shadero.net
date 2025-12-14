@@ -5,10 +5,10 @@ from PIL import Image
 
 def convert_and_resize(input_path, quality, max_size):
     """
-    画像をRGBに変換し、最大サイズにリサイズしてJPG保存します。
+    Convert the image to RGB, resize to the maximum size and save as JPG.
     """
     if not os.path.exists(input_path):
-        print(f"エラー: ファイル '{input_path}' が見つかりません。")
+        print(f"Error: File '{input_path}' not found.")
         return
 
     try:
@@ -22,29 +22,29 @@ def convert_and_resize(input_path, quality, max_size):
         output_path = root + ".jpg"
         img.save(output_path, "JPEG", quality=quality)
 
-        print(f"処理完了: {output_path}")
-        print(f"  - 画質: {quality}")
-        print(f"  - サイズ: {img.size[0]}x{img.size[1]}")
+        print(f"Completed: {output_path}")
+        print(f"  - Quality: {quality}")
+        print(f"  - Size: {img.size[0]}x{img.size[1]}")
 
     except Exception as e:
-        print(f"エラーが発生しました: {e}")
+        print(f"Error: {e}")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="画像をアップロード用に最適化(リサイズ&JPG変換)するスクリプト"
+        description="Optimize images for upload (resize & convert to JPG)"
     )
 
-    parser.add_argument("input_file", help="処理する画像ファイル")
+    parser.add_argument("input_file", help="Image file to process")
     parser.add_argument(
-        "-q", "--quality", type=int, default=85, help="JPG品質 (デフォルト: 85)"
+        "-q", "--quality", type=int, default=85, help="JPG quality (default: 85)"
     )
     parser.add_argument(
         "-s",
         "--max-size",
         type=str,
         default="1980x1080",
-        help="最大サイズ (幅x高さ、デフォルト: 1980x1080)",
+        help="Maximum size (WIDTHxHEIGHT, default: 1980x1080)",
     )
 
     args = parser.parse_args()
@@ -54,7 +54,7 @@ def main():
         max_size = (width, height)
     except ValueError:
         print(
-            "エラー: max-size は 'WIDTHxHEIGHT' の形式で指定してください (例: 1980x1080)"
+            "Error: max-size must be specified in 'WIDTHxHEIGHT' format (e.g., 1980x1080)"
         )
         return
 
