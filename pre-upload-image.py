@@ -2,12 +2,8 @@ import argparse
 import os
 from PIL import Image
 
-# 設定：最大サイズ (幅, 高さ)
-# 指定通り 1980x1080 に設定しています
-MAX_SIZE = (1980, 1080)
 
-
-def convert_and_resize(input_path, quality):
+def convert_and_resize(input_path, quality, max_size):
     """
     画像をRGBに変換し、最大サイズにリサイズしてJPG保存します。
     """
@@ -22,9 +18,9 @@ def convert_and_resize(input_path, quality):
         if img.mode in ("RGBA", "P"):
             img = img.convert("RGB")
 
-        # 2. リサイズ処理: アスペクト比維持で MAX_SIZE に収める
+        # 2. リサイズ処理: アスペクト比維持で max_size に収める
         # Image.Resampling.LANCZOS は高品質な縮小アルゴリズムです
-        img.thumbnail(MAX_SIZE, Image.Resampling.LANCZOS)
+        img.thumbnail(max_size, Image.Resampling.LANCZOS)
 
         # 出力パス作成
         root, _ = os.path.splitext(input_path)
@@ -51,10 +47,27 @@ def main():
     parser.add_argument(
         "-q", "--quality", type=int, default=85, help="JPG品質 (デフォルト: 85)"
     )
+    parser.add_argument(
+        "-s",
+        "--max-size",
+        type=str,
+        default="1980x1080",
+        help="最大サイズ (幅x高さ、デフォルト: 1980x1080)",
+    )
 
     args = parser.parse_args()
 
-    convert_and_resize(args.input_file, args.quality)
+    # max_size を文字列からタプルに変換
+    try:
+        width, height = map(int, args.max_size.split("x"))
+        max_size = (width, height)
+    except ValueError:
+        print(
+            "エラー: max-size は 'WIDTHxHEIGHT' の形式で指定してください (例: 1980x1080)"
+        )
+        return
+
+    convert_and_resize(args.input_file, args.quality, max_size)
 
 
 if __name__ == "__main__":
