@@ -14,22 +14,14 @@ def convert_and_resize(input_path, quality, max_size):
     try:
         img = Image.open(input_path)
 
-        # 1. アルファチャンネル(透過)対策: RGBモードへ変換
         if img.mode in ("RGBA", "P"):
             img = img.convert("RGB")
-
-        # 2. リサイズ処理: アスペクト比維持で max_size に収める
-        # Image.Resampling.LANCZOS は高品質な縮小アルゴリズムです
         img.thumbnail(max_size, Image.Resampling.LANCZOS)
 
-        # 出力パス作成
         root, _ = os.path.splitext(input_path)
         output_path = root + ".jpg"
-
-        # 3. 保存
         img.save(output_path, "JPEG", quality=quality)
 
-        # 結果表示 (変換後のサイズも表示)
         print(f"処理完了: {output_path}")
         print(f"  - 画質: {quality}")
         print(f"  - サイズ: {img.size[0]}x{img.size[1]}")
@@ -57,7 +49,6 @@ def main():
 
     args = parser.parse_args()
 
-    # max_size を文字列からタプルに変換
     try:
         width, height = map(int, args.max_size.split("x"))
         max_size = (width, height)
