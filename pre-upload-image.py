@@ -5,7 +5,7 @@ from PIL import Image
 
 def convert_and_resize(input_path, quality, max_size):
     """
-    Convert the image to RGB, resize to the maximum size and save as JPG.
+    Convert the image to JPG.
     """
     if not os.path.exists(input_path):
         print(f"Error: File '{input_path}' not found.")
@@ -16,7 +16,8 @@ def convert_and_resize(input_path, quality, max_size):
 
         if img.mode in ("RGBA", "P"):
             img = img.convert("RGB")
-        img.thumbnail(max_size, Image.Resampling.LANCZOS)
+        if max_size is not None:
+            img.thumbnail(max_size, Image.Resampling.LANCZOS)
 
         root, _ = os.path.splitext(input_path)
         output_path = root + ".jpg"
@@ -43,20 +44,21 @@ def main():
         "-s",
         "--max-size",
         type=str,
-        default="1980x1080",
-        help="Maximum size (WIDTHxHEIGHT, default: 1980x1080)",
+        default=None,
+        help="Maximum size (WIDTHxHEIGHT, e.g., 1980x1080). If not specified, no resizing is performed.",
     )
 
     args = parser.parse_args()
-
-    try:
-        width, height = map(int, args.max_size.split("x"))
-        max_size = (width, height)
-    except ValueError:
-        print(
-            "Error: max-size must be specified in 'WIDTHxHEIGHT' format (e.g., 1980x1080)"
-        )
-        return
+    max_size = None
+    if args.max_size:
+        try:
+            width, height = map(int, args.max_size.split("x"))
+            max_size = (width, height)
+        except ValueError:
+            print(
+                "Error: max-size must be specified in 'WIDTHxHEIGHT' format (e.g., 1980x1080)"
+            )
+            return
 
     convert_and_resize(args.input_file, args.quality, max_size)
 
