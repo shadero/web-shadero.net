@@ -38,7 +38,7 @@ def main():
 
     parser.add_argument("input_file", help="Image file to process")
     parser.add_argument(
-        "-q", "--quality", type=int, default=85, help="JPG quality (default: 85)"
+        "-q", "--quality", type=int, default=90, help="JPG quality (default: 90)"
     )
     parser.add_argument(
         "-s",
